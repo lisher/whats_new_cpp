@@ -1,5 +1,5 @@
-auto_object_simple: auto_object_simple.cpp
+decltype_entity: decltype_entity.cpp
 	g++ -Wall -Wno-unused-variable -pedantic -std=c++11 $< -o $@
 
-auto_object_classes: auto_object_classes.cpp
+decltype_expr: decltype_expr.cpp
 	g++ -Wall -Wno-unused-variable -pedantic -std=c++11 $< -o $@

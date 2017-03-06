@@ -35,7 +35,7 @@ int main()
 
   auto ax = x;       // int
   auto acx = cx;     // int
-  auto arcx = x;     // int
+  auto arcx = rcx;   // int
   auto apcx = pcx;   // int const *
   auto acpcx = cpcx; // int const *
 
