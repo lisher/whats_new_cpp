@@ -1,6 +1,6 @@
-copies_and_refs: copies_and_refs.cpp
+simple_object: simple_object.cpp
 	g++ -Wall -Wno-unused-variable  -g -Og -fno-elide-constructors -pedantic -std=c++11 $< -o $@
 
-rvalue_references: rvalue_references.cpp
+movable_object: movable_object.cpp
 	g++ -Wall -Wno-unused-variable  -g -Og -fno-elide-constructors -pedantic -std=c++11 $< -o $@
 
