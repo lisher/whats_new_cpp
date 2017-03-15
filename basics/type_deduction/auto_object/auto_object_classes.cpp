@@ -152,6 +152,27 @@ void type_irrelevent()
   libBetaExtrapolation(data);
 }
 
+// Example 4
+// Class member declared using auto
+
+class Object
+{
+  public:
+    // compilation error, member can be declared
+    // using auto only if it is a static member
+    // auto member = 1;
+
+    // compilation error
+    // in-class initialization is allowed only for _const_ statics
+    //static auto member = 1;
+
+    // compilation error
+    // auto requires initialization
+    //static auto member;
+
+    static const auto member = 1;
+};
+
 int main()
 {
   for_each();

@@ -22,21 +22,77 @@ class Container
     class iterator
     {
       public:
-        interator()
-          : obj(nullptr)
+        iterator()
+          : ptr(nullptr)
         {
         }
+
+        iterator(const iterator& rhs)
+          : ptr(rhs.ptr)
+        {
+        }
+
+        bool operator!=(const iterator& rhs)
+        {
+          return ptr != rhs.ptr;
+        }
+
+        iterator operator++()
+        {
+          iterator temp(*this);
+
+          ++ptr;
+
+          return temp;
+        }
+        uint8_t& operator*()
+        {
+          return *ptr;
+        }
+
       private:
-        uint8_t* obj;
+        iterator(uint8_t* ptr)
+         : ptr(ptr)
+        {
+        }
+
+        uint8_t* ptr;
+
+        friend Container;
     };
-    Container()
-      : buffer(nullptr)
+
+    // begin() and end() need to be placed before
+    // copy ctor
+    auto begin()
     {
+      return iterator(buffer);
     }
+    auto end()
+    {
+      return iterator(buffer + size);
+    }
+
+    Container(size_t size)
+      : size(size)
+    {
+      buffer = new uint8_t[size];
+
+      for (auto& value : *this)
+      {
+        value = 1;
+      }
+    }
+
+    ~Container()
+    {
+      delete [] buffer;
+    }
+
   private:
     uint8_t * buffer;
     size_t size;
 };
+
 int main()
 {
   int i = 2;
@@ -44,6 +100,40 @@ int main()
 
   std::cout << mul(i, d) << std::endl;
   std::cout << mul(d, i) << std::endl;
+
+
+  Container objects(6);
+
+  // let's store some values in container
+  std::cout << "Attempt 1"  << std::endl;
+
+  int counter = 0;
+  for (auto obj : objects)
+  {
+    obj = ++counter;
+  }
+
+  // then realize that we updated copies
+  for (auto obj : objects)
+  {
+    // static_cast just to prevent printing as char
+    std::cout << static_cast<int>(obj) << std::endl;
+  }
+
+  // so this time let's do it correct
+  std::cout << "Attempt 2"  << std::endl;
+
+  counter = 0;
+  for (auto& obj : objects)
+  {
+    obj = ++counter;
+  }
+
+  // here copy is ok since uint8_t is rather small
+  for (auto obj : objects)
+  {
+    std::cout << static_cast<int>(obj) << std::endl;
+  }
 
   return 0;
 }
