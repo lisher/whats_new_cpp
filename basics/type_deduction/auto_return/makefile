@@ -1,3 +1,4 @@
-auto_return : auto_return.cpp
-	g++ -Wall -Wno-unused-variable -pedantic -std=c++14 $< -o $@
+auto_return : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -Wno-unused-variable -pedantic -std=c++14 $^ -o bin/$@
 

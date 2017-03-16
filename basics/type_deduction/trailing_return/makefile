@@ -1,5 +1,7 @@
-trailing_return: trailing_return.cpp
-	g++ -Wall -Wno-unused-variable -pedantic -std=c++11 $< -o $@
+trailing_return : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -Wno-unused-variable -pedantic -std=c++11 $^ -o bin/$@
 
-bonus: bonus.cpp
-	g++ -Wall -Wno-unused-variable -pedantic -std=c++11 $< -o $@
+bonus : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -Wno-unused-variable -pedantic -std=c++11 $^ -o bin/$@
