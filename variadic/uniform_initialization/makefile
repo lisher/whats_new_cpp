@@ -1,8 +1,12 @@
-main: main.cpp
-	g++ -Wall -pedantic -std=c++11 main.cpp -o main
+main : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -pedantic -g -std=c++11 $^ -o bin/$@
 
-compare: compare.cpp
-	g++ -Wall -pedantic -Og -fno-elide-constructors -std=c++11 compare.cpp -o compare
+compare : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -pedantic -g -Og -fno-elide-constructors -std=c++11 $^ -o bin/$@
 
-order: order.cpp
-	g++ -Wall -pedantic -Og -fno-elide-constructors -std=c++11 $< -o order
+main : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -pedantic -g -Og -fno-elide-constructors -std=c++11 $^ -o bin/$@
+

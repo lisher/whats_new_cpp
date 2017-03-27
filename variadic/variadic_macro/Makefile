@@ -1,2 +1,0 @@
-all:
-	g++ -Wall -pedantic -std=c++11 main.cpp -o va_macro

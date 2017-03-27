@@ -1,5 +1,8 @@
-new:
-	g++ -std=c++11 cpp03_initializer_lists.cpp -o cpp03_initializer_lists
+new : cpp03_initializer_lists.cpp
+	@mkdir -p bin/
+	g++ -Wall -pedantic -g -std=c++11 $^ -o bin/$@
 
-old:
-	g++ -std=c++03 cpp03_initializer_lists.cpp -o cpp03_initializer_lists
+old : cpp03_initializer_lists.cpp
+	@mkdir -p bin/
+	g++ -Wall -pedantic -g -std=c++03 $^ -o bin/$@
+
