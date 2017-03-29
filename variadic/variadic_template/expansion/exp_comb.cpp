@@ -60,6 +60,16 @@ auto square(Rest... rest)
 }
 
 template <typename... Rest>
+auto call_function(Rest... rest)
+{
+  std::cout << "Function " << __PRETTY_FUNCTION__
+            << " called" << std::endl;
+
+  // expands to abs(E1), abs(E2), abs(E3) ...
+  return sum(abs(rest)...);
+}
+
+template <typename... Rest>
 auto sum_in_sum(Rest... rest)
 {
   std::cout << "Function " << __PRETTY_FUNCTION__
@@ -80,6 +90,8 @@ int main()
   std::cout << "square = " <<  square(1, 2, 3.1, 4, 5) << std::endl;
 
   std::cout << "sum_in_sum = " <<  sum_in_sum(1, 2, 3.1, 4, 5) << std::endl;
+
+  std::cout << "call_function = " <<  call_function(-1, 2, -3.1, 4, -5) << std::endl;
 
   return 0;
 }
