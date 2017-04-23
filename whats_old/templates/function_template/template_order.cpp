@@ -10,10 +10,11 @@
  *
  */
 
-// STEP 0 - incorrect order of templates
+// STEP 0 - 'incorrect' order of templates
 // STEP 1 - correct order of templates
 // STEP 2 - non template function
 #define STEP 0
+
 #include <iostream>
 
 template <typename T>
@@ -28,6 +29,8 @@ void foo(T arg)
 //
 // template <typename T>
 // void foo(T arg)
+//
+// with [T = int *]
 //
 template <>
 void foo(int * arg)
@@ -50,6 +53,7 @@ void foo(T * arg)
 // template <typename T>
 // void foo(T * arg)
 //
+// with [T = int]
 template <>
 void foo(int * arg)
 {

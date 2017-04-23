@@ -22,6 +22,8 @@ bool equal(T a, T b)
 // let's start with just one template
 void test_single_template()
 {
+  std::cout << std::endl << "test_single_template()" << std::endl << std::endl;
+
   // we know that this works
   int i1 = 2;
   int i2 = 2;
@@ -55,6 +57,8 @@ bool equal(T * a, T * b)
 
 void test_pointer_spec()
 {
+  std::cout << std::endl << "test_pointer_spec()" << std::endl << std::endl;
+
   // second version of template better matches used arguments
   int i1 = 2;
   int i2 = 2;
@@ -98,6 +102,8 @@ bool equal(unsigned int * a, unsigned int * b)
 
 void test_full_specialization()
 {
+  std::cout << std::endl << "test_full_specialization()" << std::endl << std::endl;
+
   unsigned int ui1 = 902;
   unsigned int ui2 = 10002;
 
