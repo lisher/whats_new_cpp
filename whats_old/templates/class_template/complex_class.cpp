@@ -4,6 +4,9 @@
  * (c) Lisher
  *
  * Class template - more complex example
+ *  - member definition outside class
+ *  - template function in template class
+ *  - specializations for above
  *
  */
 
