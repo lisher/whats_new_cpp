@@ -27,6 +27,8 @@ U add (T t, U u)
   return t + u;
 }
 
+// Return type is not considered here, both base templates
+// could be used in this case
 void ambiguous_call_ret_diff()
 {
   int i1 = 2;
@@ -51,6 +53,8 @@ int add(T t1, T t2)
   return t1 + t2;
 }
 
+// Same as above, the fact that we store result in int
+// is not enough to choose second base template
 void return_type_spec()
 {
   int i1 = 2;
@@ -72,12 +76,25 @@ RET add(T t, U u)
   return t + u;
 }
 
+template <typename T, typename U>
+short add(T t, U u)
+{
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
+
+  return t + u;
+}
+
 void return_type_as_param()
 {
   int i1 = 2;
   float f1 = 1.1f;
 
-  std::cout << "return_type_as_param() " << add<float>(i1, f1) << std::endl;
+  std::cout << "add<float>(i1, f1) " << add<float>(i1, f1) << std::endl;
+
+  // Here is a fun bit, compiler will choose second template
+  // since it is unable to determine RET parameter type in
+  // the first template
+  std::cout << "add(i1, f1) " << add(i1, f1) << std::endl;
 }
 
 #endif // STEP == 2
