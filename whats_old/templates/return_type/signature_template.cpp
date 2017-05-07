@@ -9,7 +9,9 @@
 
 // STEP 0 - ambiguous call when only return type is different
 // STEP 1 - specialization for only return type
-#define STEP 2
+// STEP 2 - two base templates with different return type
+// STEP 3 - return type as template parameter
+#define STEP 0
 
 #include <iostream>
 
@@ -68,6 +70,47 @@ void return_type_spec()
 
 #if STEP == 2
 
+// Here we have two base templates with different return type
+template <typename T>
+int add(T t1, T t2)
+{
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
+
+  return t1 + t2;
+}
+
+template <typename T>
+float add(T t1, T t2)
+{
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
+
+  return t1 + t2;
+}
+
+void better_return_type_spec()
+{
+  int i1 = 3;
+  int i2 = 4;
+
+  // This line is incorrect
+  // Compilete is unable to determine which base template is better
+  //
+  // int i3 = add(i1, i2);
+
+  // Return type is part of function type so we can get a pointer
+  // to correct, instantiated version of first template
+  typedef int (*Func)(int, int);
+
+  Func my_func = &add;
+
+  std::cout << "my_func(1.0f, 2.5f) = " << my_func(1.0f, 2.5f) << std::endl;
+}
+
+#endif // STEP == 2
+
+
+#if STEP == 3
+
 template <typename RET, typename T, typename U>
 RET add(T t, U u)
 {
@@ -97,7 +140,7 @@ void return_type_as_param()
   std::cout << "add(i1, f1) " << add(i1, f1) << std::endl;
 }
 
-#endif // STEP == 2
+#endif // STEP == 3
 
 int main()
 {
@@ -110,8 +153,12 @@ int main()
 #endif // STEP == 1
 
 #if STEP == 2
-  return_type_as_param();
+  better_return_type_spec();
 #endif // STEP == 2
+
+#if STEP == 3
+  return_type_as_param();
+#endif // STEP == 3
 
   return 0;
 }

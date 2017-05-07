@@ -14,7 +14,7 @@
 // STEP 2 - full specialization using to_string
 // STEP 3 - missing definition for specialization
 // STEP 4 - deleted specialization
-#define STEP 4
+#define STEP 0
 
 #include <iostream>
 
@@ -55,7 +55,7 @@ void use_anything()
 
 #if STEP == 2
 // How can we prevent such errors? Well we can't if we don't provide
-// specialization that will merge string and int correctly like e.g. this
+// specialization that will merge string and int correctly like below
 //
 // We could leave U as only template parameter, but functions to_string
 // can handle only build-in types
