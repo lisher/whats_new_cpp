@@ -1,7 +1,9 @@
 /*
- *
  * What's new in C++
- * Type deduction - new auto
+ * Type deduction
+ * (c) Lisher
+ *
+ * Types of template parameters
  *
  */
 
@@ -35,7 +37,7 @@ class StackAllocator
     bool free(T * data)
     {
       // if data == nullptr or
-      // pointer points to object other last
+      // pointer doesn't point to last allocated object
       if (!data || data != latest - 1)
       {
         return false;
@@ -49,6 +51,9 @@ class StackAllocator
 
   private:
     T data[SIZE];
+
+    // pointer to the next free T in table
+    // can point to one element outside table
     T * latest = data;
 };
 
@@ -135,7 +140,7 @@ class Position
 
 void test_stack_allocator()
 {
-  std::cout << std::endl << "Stack Allocator" << std::endl;
+  std::cout << std::endl << __FUNCTION__ << std::endl << std::endl;
 
   StackAllocator<Position, 2> stack;
 
@@ -167,7 +172,7 @@ void test_stack_allocator()
 
 void test_dynamic_allocator()
 {
-  std::cout << std::endl << "DynamicAllocator" << std::endl;
+  std::cout << std::endl << __FUNCTION__ << std::endl << std::endl;
 
   DynamicAllocator<Position, 3> dynamic;
 
@@ -182,6 +187,8 @@ void test_dynamic_allocator()
   }
 }
 
+// universal function that will allocate a pair of objects
+// using specified allocator
 template <template<typename, size_t> typename Allocator, typename Object, size_t Size>
 std::pair<Object*, Object*> alloc(Allocator<Object, Size> & allocator)
 {
@@ -210,7 +217,7 @@ std::pair<Object*, Object*> alloc(Allocator<Object, Size> & allocator)
 
 void test_creating_pairs()
 {
-  std::cout << std::endl << __FUNCTION__ << std::endl;
+  std::cout << std::endl << __FUNCTION__ << std::endl << std::endl;
 
   StackAllocator<Position, 3> stackAlloc;
   DynamicAllocator<Position, 4> dynamicAlloc;
@@ -255,7 +262,7 @@ auto alloc_cpp11(Allocator & allocator)
 
 void test_cpp11_creating_pairs()
 {
-  std::cout << std::endl << __FUNCTION__ << std::endl;
+  std::cout << std::endl << __FUNCTION__ << std::endl << std::endl;
 
   StackAllocator<Position, 3> stackAlloc;
   DynamicAllocator<Position, 4> dynamicAlloc;
