@@ -7,26 +7,20 @@
 
 // STEP 0 - successful compilation
 // STEP 1 - same + result of 'quiz'
-// STEP 2 - failed compilation (assign to var under const ptr) + interesting printouts
-// STEP 3 - failed compilation (type_check) + interesting printouts
-// STEP 4 - exception 1 - non-const ref or ptr to non-const from const var
-#define STEP 0
+// STEP 3 - quiz for auto &
+// STEP 4 - answers for quiz auto &
+#define STEP 4
 
-#if STEP == 3
-// Function used to check argument type.
-// Since it doesn't have definition compiler will protest
-// with pretty printout.
-// But template uses template type deduction so...
-template <typename T>
-void type_check(T);
-
-#endif // STEP == 3
+#define CHECK_TYPE(VAR, TYPE)  if (std::is_same<decltype(VAR), TYPE>::value) { std::cout << "Type of " #VAR << " == " #TYPE << std::endl; }
+#define NL std::cout << std::endl
 
 #include <iostream>
 #include <type_traits>
 
-int main()
+void test_auto_by_value()
 {
+  std::cout << std::endl << __FUNCTION__ << std::endl << std::endl;
+
   int x = 1;
   const int cx = x;
   const int & rcx = x;
@@ -36,10 +30,19 @@ int main()
   auto ax = x;       // int
   auto acx = cx;     // int
   auto arcx = rcx;   // int
-  auto apcx = pcx;   // int const *
-  auto acpcx = cpcx; // int const *
+  auto apcx = pcx;   // const int *
+  auto acpcx = cpcx; // const int *
+
+  CHECK_TYPE(ax, int);
+  CHECK_TYPE(acx, int);
+  CHECK_TYPE(arcx, int);
+  CHECK_TYPE(apcx, const int *);
+  CHECK_TYPE(acpcx, const int *);
 
   // sanity check
+  CHECK_TYPE(apcx, int * const);
+  CHECK_TYPE(acpcx, int * const);
+  NL;
 
   std::cout << "     x = " << x <<     "     ax = " << ax << std::endl
             << "    cx = " << cx <<    "    acx = " << acx << std::endl
@@ -53,7 +56,7 @@ int main()
   std::cout << std::endl << "x = 2;" << std::endl;
   std::cout << "How the values changed?" << std::endl;
 
-#if STEP == 1
+#if STEP >= 1
   std::cout << "-------------------------------" << std::endl;
   std::cout << "     x = " << x <<     "     ax = " << ax << std::endl
             << "    cx = " << cx <<    "    acx = " << acx << std::endl
@@ -70,6 +73,8 @@ int main()
   acpcx = &y;
 
   std::cout << "-------------------------------" << std::endl;
+  std::cout << " Let's try to update other values" << std::endl << std::endl;
+
   std::cout << "     x = " << x <<     "     ax = " << ax << std::endl
             << "    cx = " << cx <<    "    acx = " << acx << std::endl
             << "   rcx = " << rcx <<   "   arcx = " << arcx << std::endl
@@ -77,40 +82,68 @@ int main()
             << " *cpcx = " << *cpcx << " *acpcx = " << *acpcx
             << std::endl;
 
-#endif // STEP == 1
+#endif // STEP >= 1
+}
 
-#if STEP == 2
+void test_auto_by_ref()
+{
+  std::cout << std::endl << __FUNCTION__ << std::endl << std::endl;
 
-  // let's try to change value of variable under const pointers
-  *apcx = 20;
-  *acpcx = 30;
+  int x = 1;
+  const int cx = x;
+  const int & rcx = x;
+  const int * pcx = &x;
+  const int * const cpcx = &x;
 
-#endif // STEP == 2
+  auto & ax = x;       // int &
+  auto & acx = cx;     // const int &
+  auto & arcx = rcx;   // const int &
+  auto & apcx = pcx;   // const int * &
+  auto & acpcx = cpcx; // const int * const &
 
-#if STEP == 3
-  // for this variables we can use template to check type
-  type_check(apcx);
-  type_check(apcx);
+  CHECK_TYPE(ax, int &);
+  CHECK_TYPE(acx, const int &);
+  CHECK_TYPE(arcx, const int &);
+  CHECK_TYPE(apcx, const int * &);
+  CHECK_TYPE(acpcx, const int * const &);
 
-  type_check(acpcx);
-  type_check(acpcx);
+  // sanity check
+  CHECK_TYPE(apcx, int * &);
+  CHECK_TYPE(acpcx, const int * &);
+  NL;
 
-#endif // STEP == 3
+  std::cout << "     x = " << x <<     "     ax = " << ax << std::endl
+            << "    cx = " << cx <<    "    acx = " << acx << std::endl
+            << "   rcx = " << rcx <<   "   arcx = " << arcx << std::endl
+            << "  *pcx = " << *pcx <<  "  *apcx = " << *apcx << std::endl
+            << " *cpcx = " << *cpcx << " *acpcx = " << *acpcx
+            << std::endl;
+
+  x = 2;
+
+  std::cout << std::endl << "x = 2;" << std::endl;
+  std::cout << "How the values changed?" << std::endl;
 
 #if STEP == 4
-  // Exceptions 1
-  // auto will not generate reference/pointer that would allow to change const variable
-  const int cy = 1;
-  auto& e1a = cy;   // const int &
-  auto* e1b = &cy;  // const int *
-
-  // Let's check if we const is really enforced
-  e1a  = 5;
-  *e1b = 6;
+  std::cout << "-------------------------------" << std::endl;
+  std::cout << "     x = " << x <<     "     ax = " << ax << std::endl
+            << "    cx = " << cx <<    "    acx = " << acx << std::endl
+            << "   rcx = " << rcx <<   "   arcx = " << arcx << std::endl
+            << "  *pcx = " << *pcx <<  "  *apcx = " << *apcx << std::endl
+            << " *cpcx = " << *cpcx << " *acpcx = " << *acpcx
+            << std::endl;
 
 #endif // STEP == 4
+}
 
-//TODO example for universal reference needed
+int main()
+{
+  test_auto_by_value();
+
+#if STEP == 3 || STEP == 4
+  test_auto_by_ref();
+#endif
 
   return 0;
 }
+

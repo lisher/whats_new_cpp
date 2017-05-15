@@ -43,8 +43,6 @@ const std::string type(T var)
  *
  *******************************************************************************/
 
-// EXAMPLE 4 - auto member object
-#define EXAMPLE 0
 
 #include <vector>
 #include <iostream>
@@ -65,22 +63,34 @@ void for_each()
        point != points.end();
        ++point)
   {
-    std::cout << *point << std::endl;
+    std::cout << *point << " ";
   }
+  std::cout << std::endl;
+
+  // better, we don't need to use container type nor stored entity type
+  for (auto point = points.begin();
+       point != points.end();
+       ++point)
+  {
+    std::cout << *point << " ";
+  }
+  std::cout << std::endl;
 
   // now with range-based for loop
   // better, but we still need to use type of stored objects
   for (int point : points)
   {
-    std::cout << point << std::endl;
+    std::cout << point << " ";
   }
+  std::cout << std::endl;
 
   // nice, now we only need to ensure that 'points' stores objects with
   // overloaded operator<< for output stream
   for (auto point : points)
   {
-    std::cout << point << std::endl;
+    std::cout << point << " ";
   }
+  std::cout << std::endl;
 
 }
 
@@ -107,51 +117,6 @@ void with_new()
   delete ptr2;
 }
 
-// Example 3
-// Using auto when object type in irrelevent
-
-// Library Alpha and Library Beta don't know about each other
-// They know about data sets defined in Library Gamma
-// We need to forward output from Library Alpha to Library Beta
-
-class LibraryGammaDataSet
-{
-};
-
-LibraryGammaDataSet libAlphaGetDataSet()
-{
-  return LibraryGammaDataSet();
-}
-
-void libBetaExtrapolation(LibraryGammaDataSet input)
-{
-  // do sth
-}
-
-#if EXAMPLE == 4
-class Auto
-{
-  auto noOfWheels = 4;
-  int noOfDoors = 2;
-};
-#endif // EXAMPLE == 4
-
-void type_irrelevent()
-{
-  // Initialize Library Alpha
-  // Run Library Alpha data generators
-
-  // get data from Library A module
-  auto data = libAlphaGetDataSet();
-
-  // Initializa Library Beta
-  // Connect Library Beta to network interface
-
-  // forward collected data to Library Beta
-
-  libBetaExtrapolation(data);
-}
-
 // Example 4
 // Class member declared using auto
 
@@ -173,13 +138,51 @@ class Object
     static const auto member = 1;
 };
 
+// There is one difference between auto and template type deduction
+void auto_init_list()
+{
+  auto a1 = 4;
+  auto a2(4);
+
+  std::cout << "a1 = " << a1 << " type = " << type(a1) << std::endl;
+  std::cout << "a2 = " << a2 << " type = " << type(a2) << std::endl;
+
+  // here initializer_list<int> will be deduced
+  auto a3 = {4};
+  auto a4{4};
+
+  std::string a3_value;
+  for (const auto & value : a3)
+  {
+    a3_value += std::to_string(value);
+    a3_value += " ";
+  }
+
+  std::cout << "a3 = [" << a3_value << "] type = " << type(a3) << std::endl;
+  std::cout << "a4 = " << a4 << " type = " << type(a4) << std::endl;
+
+  auto a5 = {1, 2, 3};
+  // wont compile
+  // auto a6{1, 2, 3, 4};
+
+  std::string a5_value;
+  for (const auto & value : a5)
+  {
+    a5_value += std::to_string(value);
+    a5_value += " ";
+  }
+
+  std::cout << "a5 = [" << a5_value << "] type = " << type(a5) << std::endl;
+
+}
+
 int main()
 {
   for_each();
 
   with_new();
 
-  type_irrelevent();
+  auto_init_list();
 
   return 0;
 }
