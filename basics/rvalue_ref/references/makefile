@@ -6,3 +6,15 @@ rvalue_references : % : %.cpp
 	@mkdir -p bin/
 	g++ -Wall -Wno-unused-variable -pedantic -g -Og -std=c++11 $^ -o bin/$@
 
+lvalue_ref : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -Wno-unused-variable -pedantic -g -Og -std=c++11 $^ -o bin/$@
+
+const_lvalue_ref : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -Wno-unused-variable -pedantic -g -Og -std=c++11 $^ -o bin/$@
+
+lvalue_ref_to_rvalue : % : %.cpp
+	@mkdir -p bin/
+	g++ -Wall -Wno-unused-variable -pedantic -g -Og -std=c++11 $^ -o bin/$@
+
