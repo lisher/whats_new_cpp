@@ -33,18 +33,16 @@ class Container
         {
         }
 
-        bool operator!=(const iterator& rhs)
+        bool operator!=(const iterator& rhs) const
         {
           return ptr != rhs.ptr;
         }
 
         iterator operator++()
         {
-          iterator temp(*this);
-
           ++ptr;
 
-          return temp;
+          return *this;
         }
         uint8_t& operator*()
         {
@@ -78,9 +76,11 @@ class Container
     {
       buffer = new uint8_t[size];
 
-      for (auto& value : *this)
+      for (auto value = begin();
+           value != end();
+           ++value)
       {
-        value = 1;
+        *value = 1;
       }
     }
 
@@ -99,8 +99,8 @@ int main()
   int i = 2;
   double d = 1.6;
 
-  std::cout << mul(i, d) << std::endl;
-  std::cout << mul(d, i) << std::endl;
+  std::cout << "mul(i, d) == " << mul(i, d) << std::endl;
+  std::cout << "mul(d, i) == " << mul(d, i) << std::endl;
 
 
   Container objects(6);

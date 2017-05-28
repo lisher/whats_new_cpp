@@ -16,13 +16,15 @@
 // STEP 4 - auto with remove_pointer
 // STEP 5 - remove_pointer without auto
 // STEP 6 - auto with dereference operator
-#define STEP 5
-#define CHECK_TYPE(DECL, TYPE) std::cout << (std::is_same<DECL, TYPE>::value ? #DECL " == " #TYPE : #DECL " != " #TYPE) << std::endl
+#define STEP 0
+
+#define CHECK_TYPE(VAR, TYPE) std::cout << (std::is_same<decltype(VAR), TYPE>::value ? #VAR " is " #TYPE : #VAR " isn't " #TYPE) << std::endl
 #define NL std::cout << std::endl
 
 template <typename T>
 void type_check(T);
 
+// Class with loud constructors
 class Position
 {
   public:
@@ -55,18 +57,19 @@ int main()
 
   auto my_a = new auto('a');
 
-  CHECK_TYPE(decltype(my_a), char*);
+  CHECK_TYPE(my_a, char*);
   NL;
 
   delete my_a;
 
   auto my_d = new auto(1.9);
 
-  CHECK_TYPE(decltype(my_d), double*);
+  CHECK_TYPE(my_d, double*);
   NL;
 
   delete my_d;
 #endif // STEP == 0
+
 
 #if STEP > 0
   std::cout << "For objects" << std::endl;
@@ -81,7 +84,7 @@ int main()
   // this will work, only what's the point?
   auto my_pos = new auto {Position{1.1, 2.2, 3.3}};
 
-  CHECK_TYPE(decltype(my_pos), Position*);
+  CHECK_TYPE(my_pos, Position*);
 
   delete my_pos;
 #endif // STEP == 2
@@ -91,10 +94,10 @@ int main()
     auto start = new Position{1.1, 2.2, 3.3};
     auto stop = new auto(start);
 
-    CHECK_TYPE(decltype(start), Position*);
+    CHECK_TYPE(start, Position*);
 
-    CHECK_TYPE(decltype(stop), Position*);
-    CHECK_TYPE(decltype(stop), Position**);
+    CHECK_TYPE(stop, Position*);
+    CHECK_TYPE(stop, Position**);
     NL;
 
     delete stop;
@@ -107,7 +110,7 @@ int main()
     auto start = new Position{1.1, 2.2, 3.3};
 
     // note that         (----------------this----------------------)
-    // it a type,
+    // it is a type,
     // not an expr
     auto stop = new auto(std::remove_pointer<decltype(start)>::type);
 
@@ -122,7 +125,7 @@ int main()
     // note: will call default constructor
     auto stop = new std::remove_pointer<decltype(start)>::type;
 
-    CHECK_TYPE(decltype(stop), Position*);
+    CHECK_TYPE(stop, Position*);
     NL;
 
     delete stop;
@@ -136,12 +139,12 @@ int main()
 
     auto stop = new auto(*start);
 
-    CHECK_TYPE(decltype(stop), Position*);
+    CHECK_TYPE(stop, Position*);
     NL;
 
     // please just remember that dereference operator returns reference to
     // data under pointer
-    CHECK_TYPE(decltype(*start), Position&);
+    CHECK_TYPE(*start, Position&);
     NL;
 
     delete stop;

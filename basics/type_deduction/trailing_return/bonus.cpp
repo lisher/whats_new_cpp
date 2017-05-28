@@ -19,21 +19,20 @@ class Const
     const CONST* const getC(const CONST* const arg) const
     { return arg; }
 
-    // this is a pointer to function
+    // this is a pointer to a member function
     const CONST* const (Const::* getCC) (const CONST* const) const;
 
-    // this is a function that return pointer to function
+    // this is a function that returns pointer to a member function
     const CONST* const (Const::* getCCC(const CONST* const))(const CONST* const) const
     { return getCC; }
 
-    // this is a pointer to function that return pointer to function
+    // this is a pointer to a member function that returns pointer to a member function
     const CONST* const (Const::* (Const::* constant) (const CONST* const))(const CONST* const) const;
 
 
     // C++11 makes it easier?
-    // At the same time forces me to add static which breaks my constantness :(
 
-    // this is a pointer to function that return pointer to function
+    // this is a pointer to a member function that returns pointer to a mmeber function
     constexpr static auto (Const::* constant2)(const CONST* const) -> auto(Const::*)(const CONST* const) const -> const CONST* const = &Const::getCCC;
 
     Const()
