@@ -2,11 +2,14 @@
  *
  * What's new in C++
  * Type deduction - decltype
+ * (c) Lisher
  *
  */
 
 #include <iostream>
 
+// Note that this macro accepts decltype as argument, not a variable
+// as versions of this macro in other examples
 #define CHECK_TYPE(DECL, TYPE) std::cout << (std::is_same<DECL, TYPE>::value ? #DECL " == " #TYPE : #DECL " != " #TYPE) << std::endl
 #define NL std::cout << std::endl
 

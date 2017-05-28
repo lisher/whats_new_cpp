@@ -2,6 +2,7 @@
  *
  * What's new in C++
  * Type deduction - auto
+ * (c) Lisher
  *
  */
 

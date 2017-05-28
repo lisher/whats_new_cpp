@@ -2,6 +2,7 @@
  *
  * What's new in C++
  * rvalue_refs - lvalue refenrece initialized with rvalue
+ * (c) Lisher
  *
  */
 

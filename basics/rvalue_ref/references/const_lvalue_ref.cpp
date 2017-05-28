@@ -2,6 +2,7 @@
  *
  * What's new in C++
  * rvalue_refs - const lvalue references
+ * (c) Lisher
  *
  */
 
@@ -31,16 +32,18 @@ class A
 
     A(const A & rhs)
     {
-#if STEP == 1
-      std::cout << "[????] CTOR " << __PRETTY_FUNCTION__ << " Attempt to copy from  &rhs == " << &rhs << std::endl;
-#else
+      if (&rhs == NULL)
+      {
+        std::cout << "[????] CTOR " << __PRETTY_FUNCTION__ << " Attempt to copy from  &rhs == " << &rhs << std::endl;
+      }
+      else
+      {
+        x = rhs.x;
 
-      x = rhs.x;
+        name = std::string("copy of ") + rhs.name;
 
-      name = std::string("copy of ") + rhs.name;
-
-      std::cout << "["  << name << "] CTOR " << __PRETTY_FUNCTION__ << std::endl;
-#endif
+        std::cout << "["  << name << "] CTOR " << __PRETTY_FUNCTION__ << std::endl;
+      }
 
       ++created;
     }
@@ -91,6 +94,8 @@ class A
 
 int A::created = 0;
 
+
+
 void test_return_temporary()
 {
   std::cout << std::endl << __FUNCTION__ << std::endl;
@@ -103,6 +108,7 @@ void test_return_temporary()
 
   std::cout << "cref.x == " << cref.getX() << " a1.x == " << a1.getX() << std::endl;
 }
+
 
 const A & return_ref_to_local()
 {
@@ -139,6 +145,7 @@ void test_return_const_ref_two()
   }
 }
 
+
 // Now let's check if binding temporary to member
 // will extend its lifetime
 class Container
@@ -166,6 +173,7 @@ void test_store_in_mmeber_const_ref()
     std::cout << "c1.value.name == " << c1.value.getName() << " c1.value.x == " << c1.value.getX() << std::endl;
   }
 }
+
 
 // Now let's check the ability of reference to const to bind rvalues
 void describe_arg(const A & arg)

@@ -2,6 +2,7 @@
  *
  * What's new in C++
  * rvalue_refs - const lvalue references
+ * (c) Lisher
  *
  */
 

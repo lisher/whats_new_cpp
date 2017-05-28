@@ -2,9 +2,11 @@
  *
  * What's new in C++
  * rvalue_refs - lvalue references
+ * (c) Lisher
  *
  */
 
+// returns rvalue
 int get_three()
 {
   return 3;
@@ -12,16 +14,19 @@ int get_three()
 
 int bad_global = 1000;
 
+// returns lvalue
 int & get_bg()
 {
   return bad_global;
 }
 
+// returns lvalue
 int & pass_by_ref(int & arg)
 {
   return ++arg;
 }
 
+// Class B and C can be assigned to reference to A
 class A {};
 class B : public A {}
 
@@ -61,6 +66,10 @@ int main()
   // function get_bg returns lvalue
   int & ref6 = get_bg();
 
+  // Note that if function returns lvalue the following
+  // expression is possible
+  get_bg() = 2017;
+
   // Same rules apply to function that takes parameter by reference
   pass_by_ref(x);
 
@@ -71,11 +80,12 @@ int main()
   // implicit conversion is allowed for non-const lvalue ref (*)
   float & ref_f = x;
 
+
   // (*) with small exceptions
   B obj_b;
   C obj_c;
 
-  // allowed as B deeived from A
+  // allowed as B derives from A
   A & ref_a1 = obj_b;
   // allowed as C has convertion operator to A
   A & ref_a2 = obj_c;

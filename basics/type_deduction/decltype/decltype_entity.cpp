@@ -2,6 +2,7 @@
  *
  * What's new in C++
  * Type deduction - decltype
+ * (c) Lisher
  *
  */
 
@@ -36,7 +37,7 @@ int main()
   x = 2;
 
   std::cout << std::endl << "x = 2;" << std::endl;
-  std::cout << "How the values changed?" << std::endl;
+  std::cout << "How the values have changed?" << std::endl;
 
 #if STEP == 1
 
@@ -47,6 +48,8 @@ int main()
             << "  *pcx = " << *pcx <<  "  *dpcx = " << *dpcx << std::endl
             << " *cpcx = " << *cpcx << " *dcpcx = " << *dcpcx
             << std::endl;
+
+  std::cout << std::endl << "Which variables we can modify?" << std::endl;
 
   int y = 10;
   dx = 3;
@@ -86,7 +89,12 @@ int main()
                 ? "dpcx type = const int *"
                 : "dpcx type != const int *")
             << std::endl;
-  std::cout << (std::is_same<decltype(dcpcx), const int * /*const*/>::value
+
+  std::cout << (std::is_same<decltype(dcpcx), const int *>::value
+                ? "dcpcx type = const int *"
+                : "dcpcx type != const int *")
+            << std::endl;
+  std::cout << (std::is_same<decltype(dcpcx), const int * const>::value
                 ? "dcpcx type = const int * const"
                 : "dcpcx type != const int * const")
             << std::endl;
