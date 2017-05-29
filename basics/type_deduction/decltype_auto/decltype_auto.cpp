@@ -23,8 +23,10 @@ template <typename T>
 void type_check(T);
 
 
-void variables()
+void test_variables()
 {
+  std::cout << std::endl << "----- " <<  __PRETTY_FUNCTION__ << std::endl << std::endl;
+
   int x = 1;
 
   auto ax = x;             // int
@@ -36,20 +38,23 @@ void variables()
 
 #if STEP == 1
 
-  // and just check if decltype are not plotting against us
+  // and just check if decltypes are not plotting against us
   type_check(ax);
   type_check(dax);
 
 #endif // STEP == 1
 
+
   int & ref = x;
 
   auto aref = ref;             // int
   decltype(auto) daref = ref;  // int &
+  decltype(ref) dref = ref;    // int &
 
   CHECK_TYPE(decltype(aref), int);
   CHECK_TYPE(decltype(daref), int &);
   NL;
+
 
   const int & cref = x;
 
@@ -60,11 +65,12 @@ void variables()
   CHECK_TYPE(decltype(dacref), const int &);
   NL;
 
-  // please note that both these statements are equivalent
 
   const int cx = 1;
-  decltype(cx) var1 = cx;
-  decltype(auto) var2 = cx;
+
+  // please note that both these statements are equivalent
+  decltype(cx) var1 = cx;    // const int
+  decltype(auto) var2 = cx;  // const int
 
   CHECK_TYPE(decltype(var1), decltype(var2));
   CHECK_TYPE(decltype(var1), const int);
@@ -72,7 +78,10 @@ void variables()
 
 #if STEP == 1
 
-  // and just check if decltype are not plotting against us
+  // and just check if decltypes are not plotting against us
+  //
+  // unfortunatelly here trick with template function without
+  // definition wont work as intended
   type_check(var1);
   type_check(var2);
 
@@ -109,34 +118,45 @@ auto mul3(T t, U u)
 
 // But we are using auto type deduction which will never return reference
 
-template <typename T>
-auto negate(T t)
+void test_multiplications()
 {
-  std::cout << "Called " << __PRETTY_FUNCTION__ << std::endl;
-  t = -t;
-  return t;
-}
-void functions1()
-{
+  std::cout << std::endl << "----- " <<  __PRETTY_FUNCTION__ << std::endl << std::endl;
+
   int a = 2;
-  int b = 3;
+  double b = 3.2;
 
   std::cout << "mul1(a, b) = " << mul1(a, b) << std::endl;
   std::cout << "mul2(a, b) = " << mul2(a, b) << std::endl;
   std::cout << "mul3(a, b) = " << mul3(a, b) << std::endl;
   std::cout << std::endl;
+}
+
+template <typename T>
+auto negate(T t)
+{
+  std::cout << "Called " << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << "Arg: " << t << " Return: " << -t << std::endl;
+
+  t = -t;
+  return t;
+}
+void test_neg_by_value()
+{
+  std::cout << std::endl << "----- " <<  __PRETTY_FUNCTION__ << std::endl << std::endl;
 
   // let's check it passing argument by value
   int x = 10;
   int y = negate(x);
 
   std::cout << "x = " << x << " y = " << y << std::endl;
+  std::cout << "&x = " << &x << " &y = " << &y << std::endl;
 
   // next what will happen when we try to pass argument by reference
   int & ref = x;
   y = negate(ref);
 
   std::cout << "x = " << x << " y = " << y << std::endl;
+  std::cout << "&x = " << &x << " &y = " << &y << std::endl;
 
   // at this point you should know why it doesn't work as expected
 }
@@ -145,18 +165,23 @@ template <typename T>
 auto neg(T & t)
 {
   std::cout << "Called " << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << "Arg: " << t << " Return: " << -t << std::endl;
+
   t = -t;
   return t;
 }
 
-void functions3()
+void test_neg_by_ref()
 {
+  std::cout << std::endl << "----- " <<  __PRETTY_FUNCTION__ << std::endl << std::endl;
+
   int x = 10;
   int & ref = x;
 
   int y = neg(x);
 
   std::cout << "x = " << x << " y = " << y << std::endl;
+  std::cout << "&x = " << &x << " &y = " << &y << std::endl;
 
   // if argument is a reference and I am returning it
   // the following should be possible
@@ -172,8 +197,11 @@ void functions3()
 
 int main()
 {
-  variables();
-  functions1();
+  test_variables();
 
-  functions3();
+  test_multiplications();
+
+  test_neg_by_value();
+
+  test_neg_by_ref();
 }

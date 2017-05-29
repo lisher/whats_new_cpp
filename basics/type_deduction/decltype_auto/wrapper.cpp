@@ -3,18 +3,33 @@
  * What's new in C++
  * Type deduction - decltype(auto)
  *
+ * Purpose:
+ * In this example we create class Buffer that represent table of bytes
+ * allocated on heap. We want to support two methods of accessing
+ * Buffer content, member function at() and operator[].
+ * Function at() shouldn't allow to modify Buffer content.
+ *
+ * By changing returned type you can observe how interface of class changes.
+ * Furhter down we create helper functions that use Buffer interface. Because
+ * they also return decltype(auto) changes in Buffer interface propagate to
+ * those functions.
+ *
+ * When using decltype(auto) remember that type deduction is very flexible.
+ * It will automatically update all interfaces, so change in one function
+ * may cause unexpected errors in different part of code.
  */
 
 // STEP 0 - explicit types in Buffer
 // STEP 1 - returning auto in BUffer
-// STEP 2 - returning decltype(auto) in BUffer
+// STEP 2 - returning decltype(auto) in Buffer
 // STEP 3 - decltype(auto) with wrapper to at()
-#define STEP 3
+#define STEP 0
 
 #include <iostream>
 #include <cstring>
 
 
+// Container that stores dynamic table of bytes
 class Buffer
 {
   public:
@@ -33,10 +48,21 @@ class Buffer
       return size;
     }
 
+    // Changes the size of buffer
     void resize(size_t newSize)
     {
       uint8_t* newData = new uint8_t[newSize];
-      memcpy(newData, data, size);
+
+      if (newSize > size)
+      {
+        memcpy(newData, data, size);
+      }
+      else
+      {
+        // yes, we are loosing data here
+        memcpy(newData, data, newSize);
+      }
+
       delete [] data;
       data = newData;
       size = newSize;
@@ -51,6 +77,9 @@ class Buffer
     }
 
 #if STEP == 0 || STEP == 3
+
+    // we explicitly specify the type of returned value
+
     uint8_t at(size_t index) const
     {
       return data[index];
@@ -77,8 +106,10 @@ class Buffer
 #endif // STEP == 1
 
 #if STEP == 2
-    // changing it to decltype(auto) wont change anything
-    // as deta[x] is not a reference
+
+    // changing it to decltype(auto) will help with operator[]
+    // but at also returns reference now
+
     decltype(auto) at(size_t index)
     {
       return data[index];
@@ -96,6 +127,9 @@ class Buffer
 };
 
 
+// Note that Buffer has no check that prevent accessing elements
+// from outside of its size. Let's create wrappers that will
+// automatically change Buffer size.
 class Wrapper
 {
   public:
@@ -109,6 +143,12 @@ class Wrapper
     }
 
 #if STEP == 3
+
+    // please note that return types of operator[] and at() are different
+    // reference vs value
+
+    // doesn't allow to modify index-th element
+    // but only if at() doesn't returns reference
     static decltype(auto) safer_access(Buffer & buffer, size_t index)
     {
       if (index > buffer.getSize())

@@ -5,6 +5,9 @@
  *
  */
 
+// NOTE:
+// This example should be moved to section for move semantic
+
 #include <iostream>
 #include <cstring>
 

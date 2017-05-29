@@ -7,11 +7,12 @@
 
 // STEP 0 - operator returning auto
 // STEP 1 - operator returning decltype(auto)
-#define STEP 1
+#define STEP 0
 
 #include <iostream>
 #include <bitset>
 
+// Class that stores 8 bits
 class Mask
 {
   public:
@@ -30,18 +31,23 @@ class Mask
     unsigned char bits;
     std::string name;
 
+
+    // I am using friends here just so first argument can be reference
+    // Note that it would work correct if overloaded operator was
+    // class member.
+
 #if STEP == 0
-    friend auto operator|=(Mask& lhs, const Mask& rhs);
+    friend auto operator|=(Mask & lhs, const Mask & rhs);
 #endif // STEP == 0
 
 #if STEP == 1
-    friend decltype(auto) operator|=(Mask& lhs, const Mask& rhs);
+    friend decltype(auto) operator|=(Mask & lhs, const Mask & rhs);
 #endif // STEP == 1
 };
 
 #if STEP == 0
 // this will not even compile
-auto operator|=(Mask& lhs, const Mask& rhs)
+auto operator|=(Mask & lhs, const Mask & rhs)
 {
   lhs.bits |= rhs.bits;
 
@@ -50,7 +56,7 @@ auto operator|=(Mask& lhs, const Mask& rhs)
 #endif // STEP == 0
 
 #if STEP == 1
-decltype(auto) operator|=(Mask& lhs, const Mask& rhs)
+decltype(auto) operator|=(Mask & lhs, const Mask & rhs)
 {
   lhs.bits |= rhs.bits;
 
