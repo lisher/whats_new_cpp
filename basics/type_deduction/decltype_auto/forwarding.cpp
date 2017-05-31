@@ -11,6 +11,9 @@
 #include <iostream>
 #include <cstring>
 
+#define CHECK_TYPE(DECL, TYPE) std::cout << (std::is_same<DECL, TYPE>::value ? #DECL " == " #TYPE : #DECL " != " #TYPE) << std::endl
+#define NL std::cout << std::endl
+
 class Buffer
 {
   public:
@@ -62,11 +65,14 @@ class Buffer
     }
     void log()
     {
-      std::cout << "Buffer size = " << size << std::endl;
+      std::cout << std::endl << "Buffer size = " << size << std::endl;
+
       for (size_t i = 0 ; i < size ; ++i)
       {
         std::cout << "[" << i << "] = " << +data[i] << std::endl;
       }
+
+      std::cout << std::endl;
     }
 
     uint8_t at(size_t index) const
@@ -85,7 +91,7 @@ class Buffer
 };
 
 template <typename T>
-T&& trim(T && buffer)
+decltype(auto) trim(T && buffer)
 {
   std::cout << "Called > " << __PRETTY_FUNCTION__ << std::endl;
 
@@ -102,6 +108,9 @@ T&& trim(T && buffer)
   {
     buffer.resize(newSize + 1);
   }
+  CHECK_TYPE(decltype(std::forward<T>(buffer)), T);
+  CHECK_TYPE(decltype(std::forward<T>(buffer)), T&);
+  CHECK_TYPE(decltype(std::forward<T>(buffer)), T&&);
 
   return std::forward<T>(buffer);
 }
