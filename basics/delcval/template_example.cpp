@@ -107,7 +107,7 @@ class DatabaseCompressor
 
 template<typename T, typename U>
 //decltype(t.wrap(u)) getWrapper(T t, U u)
-decltype(std::declval<T>.wrap(std::declval<U>) getWrapper(T t, U u)
+decltype(std::declval<T>().wrap(std::declval<U>())) getWrapper(T t, U u)
 //auto getWrapper(T t, U u) -> decltype(t.wrap(u))
 {
   /*
@@ -138,4 +138,4 @@ int main()
   std::cout << type( getWrapper(dc, database) ) << std::endl;
 
   return 0;
-};
+}
