@@ -1,10 +1,16 @@
 /*
  *
  * What's new in C++
- * rvalue_refs - const lvalue references
+ * rvalue_refs - temporary
  * (c) Lisher
  *
  */
+
+// Steps in this example only change the code in main function
+//
+// STEP 0 - part 1
+// STEP 1 - part 2
+#define STEP 0
 
 #include <iostream>
 
@@ -35,6 +41,8 @@ class A
 
     A & operator++()
     {
+      std::cout << "["  << name << "] " << __PRETTY_FUNCTION__ << std::endl;
+
       ++x;
 
       return *this;
@@ -88,16 +96,20 @@ int main()
 
   A a2 = a1;
 
-  std::cout << "{" << a2.getName() << "} x == " << a2.getX() << std::endl << std::endl;
+  std::cout << "{" << a2.getName() << "} x == " << a2.getX() << std::endl;
+  std::cout << "Number of A objects created = " << A::created << std::endl << std::endl;
 
+#if STEP == 1
 
-  std::cout << "Part 1" << std::endl;
+  std::cout << "Part 2" << std::endl;
 
   A a3 = a1++ + a2++;
 
   std::cout << "{" << a3.getName() << "} x == " << a3.getX() << std::endl;
 
-  // std::cout << "Number of A objects created = " << A::created << std::endl;
+//  std::cout << "Number of A objects created = " << A::created << std::endl;
+
+#endif // STEP == 1
 
   return 0;
 }

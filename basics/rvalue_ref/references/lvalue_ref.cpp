@@ -28,18 +28,19 @@ int & pass_by_ref(int & arg)
 
 // Class B and C can be assigned to reference to A
 class A {};
-class B : public A {}
+class B : public A {};
 
 class C
 {
   public:
-    A & operator A() {
+    operator A&()
+    {
       return a;
     }
 
   private:
     A a;
-}
+};
 
 int main()
 {
@@ -77,7 +78,7 @@ int main()
   pass_by_ref(3);
 
 
-  // implicit conversion is allowed for non-const lvalue ref (*)
+  // implicit conversion is not allowed for non-const lvalue ref (*)
   float & ref_f = x;
 
 
@@ -87,6 +88,7 @@ int main()
 
   // allowed as B derives from A
   A & ref_a1 = obj_b;
+
   // allowed as C has convertion operator to A
   A & ref_a2 = obj_c;
 

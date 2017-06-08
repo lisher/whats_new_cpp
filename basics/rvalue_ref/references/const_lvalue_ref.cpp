@@ -50,6 +50,8 @@ class A
 
     A & operator++()
     {
+      std::cout << "["  << name << "] " << __PRETTY_FUNCTION__ << std::endl;
+
       ++x;
 
       return *this;
@@ -154,16 +156,24 @@ class Container
     Container(const A & value)
       : value(value)
     {
+      std::cout << __PRETTY_FUNCTION__ << std::endl;
     }
 
     const A & value;
 };
 
-void test_store_in_mmeber_const_ref()
+void test_store_in_member_const_ref()
 {
   std::cout << std::endl << __FUNCTION__ << std::endl;
 
   Container c1(return_ref_to_local());
+
+  // now someone should ask what if we pass temporary that will exist while
+  // constructor of Container is running
+
+//  Container c1(A("local-in-test"));
+
+//  A eraser("override-them-all");
 
   std::cout << "&c1.value == " << &c1.value << std::endl;
 
@@ -225,7 +235,7 @@ int main()
 #endif // STEP == 2
 
 #if STEP == 3
-  test_store_in_mmeber_const_ref();
+  test_store_in_member_const_ref();
 #endif // STEP == 3
 
 #if STEP == 4
