@@ -152,7 +152,7 @@ void lvalue()
   CHECK_TYPE(decltype(*ptr), int&);
   NL;
 
-  CHECK_TYPE(decltype("Hello World!"), const char *);
+  CHECK_TYPE(decltype("Hello World!"), const char *);      // !=
   CHECK_TYPE(decltype("Hello World!"), const char(&)[13]);
   NL;
 

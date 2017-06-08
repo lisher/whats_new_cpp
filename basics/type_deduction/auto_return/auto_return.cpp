@@ -1,7 +1,7 @@
 /*
  *
  * What's new in C++
- * Type deduction - auto
+ * Type deduction - auto return type
  * (c) Lisher
  *
  */
@@ -16,7 +16,6 @@ auto mul(T t, U u)
   return t * u;
 }
 
-// Example with auto return of iterator ??
 class Container
 {
   public:
@@ -60,8 +59,7 @@ class Container
         friend Container;
     };
 
-    // begin() and end() need to be placed before
-    // copy ctor
+    // begin() and end() need to be placed before ctor
     auto begin()
     {
       return iterator(buffer);

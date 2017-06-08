@@ -9,7 +9,7 @@
 // STEP 0 - successful compilation
 // STEP 1 - same + result of 'quiz'
 // STEP 2 - check types using is_same<>
-#define STEP 2
+#define STEP 0
 
 #include <iostream>
 
