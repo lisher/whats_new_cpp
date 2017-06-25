@@ -3,12 +3,13 @@
  * What's new in C++
  * variadic - variadic template
  *
+ * (c) Lisher
  */
 
 // STEP 0 - for build-in type
 // STEP 1 - for classes
 // STEP 2 - for template
-#define STEP 2
+#define STEP 0
 #include <iostream>
 
 template <typename T>
@@ -102,10 +103,20 @@ int main()
   int * p_int1 = Stats<int>::create(4);
   int * p_int2 = Stats<int>::create(100);
 
-  std::cout << "No of ints (existing/created) = " << Stats<int>::noOfObjects << std::endl;
+  std::cout << "No of ints (existing/created) = "
+            << Stats<int>::noOfObjects
+            << "/"
+            << Stats<int>::noOfCreated
+            << std::endl;
 
   Stats<int>::destroy(p_int1);
   Stats<int>::destroy(p_int2);
+
+  std::cout << "No of ints (existing/created) = "
+            << Stats<int>::noOfObjects
+            << "/"
+            << Stats<int>::noOfCreated
+            << std::endl;
 
 #endif // STEP == 0
 

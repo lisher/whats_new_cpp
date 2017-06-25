@@ -3,6 +3,7 @@
  * What's new in C++
  * variadic - variadic template
  *
+ * (c) Lisher
  */
 
 #include <iostream>

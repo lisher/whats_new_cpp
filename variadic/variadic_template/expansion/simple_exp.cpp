@@ -3,12 +3,18 @@
  * What's new in C++
  * variadic - variadic template
  *
+ * (c) Lisher
  */
 
 #include <iostream>
 
+#define PFE_ENABLED 0
+#define PRINT_FUNC_ENTER if (PFE_ENABLED) std::cout << __PRETTY_FUNCTION__ << std::endl
+
 void printMenu()
 {
+  PRINT_FUNC_ENTER;
+
   // do nothing
 }
 
@@ -18,6 +24,8 @@ void printMenu()
 template <typename Head, typename... Rest>
 void printMenu(Head head, Rest... rest)
 {
+  PRINT_FUNC_ENTER;
+
   std::cout << "[ ] " << head << std::endl;
 
   printMenu(rest...);
@@ -40,21 +48,32 @@ class Module
     double version;
 };
 
+// Note that this function doesn't need stop condition as
+// as no "recurence" is used
 template <typename... Rest>
 void printMenuByTitles(Rest... rest)
 {
-  printMenu(((rest).getTitle())...);
+  PRINT_FUNC_ENTER;
+
+  printMenu((rest.getTitle())...);
 }
 
 void function_call_on_param_pack()
 {
   printMenu("Locator", "Database", "Network Config");
 
+  std::cout << std::endl;
+
   Module sorter("Sorter", 1.2);
   Module converter("Hex Converter", 0.1);
   Module iterator("Random iterator", 2.0);
 
   printMenuByTitles(sorter, converter, iterator);
+
+  // This will not compile as template function requires
+  // that arguments have member function getTitle()
+  //
+  // printMenuByTitles(12, 11, 10);
 }
 
 int main()
