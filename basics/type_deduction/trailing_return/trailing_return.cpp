@@ -72,13 +72,13 @@ int main()
   std::cout << std::endl;
 
 #if STEP == 0 || STEP == 1 || STEP == 3 || STEP == 4
-  std::cout << "mul(i, d) == " << mul(i, d) << std::endl;
-  std::cout << "mul(d, i) == " << mul(d, i) << std::endl;
+  std::cout << "mul(" << i << ", " << d << ") == " << mul(i, d) << std::endl;
+  std::cout << "mul(" << d << ", " << i << ") == " << mul(d, i) << std::endl;
 #endif // STEP == 0 || STEP == 1 || STEP == 3 || STEP == 4
 
 #if STEP == 2
-  std::cout << "mul<double>(i, d) == " << mul<double>(i, d) << std::endl;
-  std::cout << "mul<double>(d, i) == " << mul<double>(d, i) << std::endl;
+  std::cout << "mul<double>(" << i << ", " << d << ") == " << mul<double>(i, d) << std::endl;
+  std::cout << "mul<double>(" << i << ", " << d << ") == " << mul<double>(d, i) << std::endl;
 #endif // STEP == 2
 
   return 0;

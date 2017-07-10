@@ -40,6 +40,8 @@ int main()
     {
       std::cout << "Failed to insert value 7.7" << std::endl;
     }
+
+    std::cout << std::endl;
   }
 //------------------------------------------------------------------------------
   {
@@ -63,6 +65,8 @@ int main()
     {
       std::cout << "Failed to insert value 4.1" << std::endl;
     }
+
+    std::cout << std::endl;
   }
 //------------------------------------------------------------------------------
   {
@@ -86,6 +90,8 @@ int main()
     {
       std::cout << "Failed to insert value 5.9" << std::endl;
     }
+
+    std::cout << std::endl;
   }
 //------------------------------------------------------------------------------
   {
@@ -114,6 +120,8 @@ int main()
     {
       std::cout << "Failed to insert value 1.1" << std::endl;
     }
+
+    std::cout << std::endl;
   }
 
   return 0;

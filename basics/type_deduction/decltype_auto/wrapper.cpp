@@ -72,6 +72,7 @@ class Buffer
       std::cout << "Buffer size = " << size << std::endl;
       for (size_t i = 0 ; i < size ; ++i)
       {
+        // plus added to convince cout to print as numbers and not as chars
         std::cout << "[" << i << "] = " << +data[i] << std::endl;
       }
     }

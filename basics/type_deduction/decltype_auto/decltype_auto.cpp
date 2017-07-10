@@ -150,6 +150,7 @@ void test_neg_by_value()
 
   std::cout << "x = " << x << " y = " << y << std::endl;
   std::cout << "&x = " << &x << " &y = " << &y << std::endl;
+  std::cout << std::endl;
 
   // next what will happen when we try to pass argument by reference
   int & ref = x;

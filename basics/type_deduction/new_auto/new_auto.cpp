@@ -80,6 +80,8 @@ int main()
   auto my_pos = new auto {1.1, 2.2, 3.3};
 #endif // STEP == 1
 
+
+
 #if STEP == 2
   // this will work, only what's the point?
   auto my_pos = new auto {Position{1.1, 2.2, 3.3}};
@@ -89,6 +91,8 @@ int main()
   delete my_pos;
 #endif // STEP == 2
 
+
+
 #if STEP == 3
   {
     auto start = new Position{1.1, 2.2, 3.3};
@@ -97,13 +101,14 @@ int main()
     CHECK_TYPE(start, Position*);
 
     CHECK_TYPE(stop, Position*);
-    CHECK_TYPE(stop, Position**);
     NL;
 
     delete stop;
     delete start;
   }
 #endif // STEP == 3
+
+
 
 #if STEP == 4
   {
@@ -117,6 +122,8 @@ int main()
     delete start;
   }
 #endif // STEP == 4
+
+
 
 #if STEP == 5
   {
@@ -152,8 +159,6 @@ int main()
   }
 #endif // STEP == 6
 
-  // add example with explicit reference?
-  // add example with non-default constructor
   return 0;
 }
 

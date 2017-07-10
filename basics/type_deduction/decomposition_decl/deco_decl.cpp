@@ -54,6 +54,7 @@ int main()
   {
     std::cout << std::endl << "For structure" << std::endl << std::endl;
 
+    // Works also for classes
     struct Call
     {
       std::string caller;
@@ -66,6 +67,7 @@ int main()
     auto & [who, what, how] = listing;
 
     std::cout << "Function called: " << what << " " << how << std::endl;
+    std::cout << "By: " << who << std::endl;
   }
 
   return 0;

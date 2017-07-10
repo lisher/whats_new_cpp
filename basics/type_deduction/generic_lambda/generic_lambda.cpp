@@ -22,14 +22,19 @@ int main()
 
   std::for_each(os.begin(), os.end(), [] (std::string value) { std::cout << "(" << value << ") "; });
   std::cout << std::endl;
+  std::cout << std::endl;
 
-  auto decorator = [] (const auto & value) { std::cout << "(" << value << ") "; };
+  auto decorator = [] (const auto & value) { std::cout << "[" << value << "] "; };
 
   std::set<double> points {1.1, 2.2, 3.3, 4.4};
 
   std::for_each(points.begin(), points.end(), decorator);
   std::cout << std::endl;
+
   std::for_each(fib.begin(), fib.end(), decorator);
+  std::cout << std::endl;
+
+  std::for_each(os.begin(), os.end(), decorator);
   std::cout << std::endl;
 
   return 0;

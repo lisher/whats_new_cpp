@@ -8,14 +8,6 @@
 
 #include <iostream>
 
-// same problem as in example for trailing return type syntax
-// with C++14 much simpler solution is availabe
-template <typename T, typename U>
-auto mul(T t, U u)
-{
-  return t * u;
-}
-
 class Container
 {
   public:
@@ -80,6 +72,14 @@ class Container
       {
         *value = 1;
       }
+
+      // We could also use range-based for
+      // Note that value is no longer a pointer
+      //
+      // for (auto & value : *this)
+      // {
+      //   value = 1;
+      // }
     }
 
     ~Container()
@@ -94,13 +94,6 @@ class Container
 
 int main()
 {
-  int i = 2;
-  double d = 1.6;
-
-  std::cout << "mul(i, d) == " << mul(i, d) << std::endl;
-  std::cout << "mul(d, i) == " << mul(d, i) << std::endl;
-
-
   Container objects(6);
 
   // let's store some values in container
