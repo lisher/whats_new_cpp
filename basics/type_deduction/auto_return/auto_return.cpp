@@ -29,13 +29,17 @@ class Container
           return ptr != rhs.ptr;
         }
 
-        iterator operator++()
+        // instead "iterator& operator++()"
+        auto& operator++()
         {
           ++ptr;
 
           return *this;
         }
-        uint8_t& operator*()
+
+        // instead "uint8_t& operator*()"
+        // Note that auto without & would be resolved to uint8_t
+        auto& operator*()
         {
           return *ptr;
         }
@@ -121,8 +125,7 @@ int main()
     obj = ++counter;
   }
 
-  // here copy is ok since uint8_t is rather small
-  for (auto obj : objects)
+  for (auto& obj : objects)
   {
     std::cout << static_cast<int>(obj) << std::endl;
   }
