@@ -9,22 +9,30 @@
 // STEP 0 - successful compilation
 // STEP 1 - same + result of 'quiz'
 // STEP 2 - check types using is_same<>
+// STEP 3 - decltype doesn't require initializeds by default
 #define STEP 0
 
 #include <iostream>
 
 int main()
 {
+  std::cout << "int x = 1;" << std::endl;
+  std::cout << "const int cx = x;" << std::endl;
+  std::cout << "const int & rcx = x;" << std::endl;
+  std::cout << "const int * pcx = &x;" << std::endl;
+  std::cout << "const int * const cpcx = &x;" << std::endl;
+  std::cout << std::endl;
+
   int x = 1;
   const int cx = x;
   const int & rcx = x;
   const int * pcx = &x;
   const int * const cpcx = &x;
 
-  decltype(x) dx       = x;       // int
-  decltype(cx) dcx     = cx;      // const int
-  decltype(rcx) drcx   = rcx;     // const int &
-  decltype(pcx) dpcx   = pcx;     // const int *
+  decltype(x)    dx    = x;       // int
+  decltype(cx)   dcx   = cx;      // const int
+  decltype(rcx)  drcx  = rcx;     // const int &
+  decltype(pcx)  dpcx  = pcx;     // const int *
   decltype(cpcx) dcpcx = cpcx;    // const int * const
 
   std::cout << "     x = " << x <<     "     dx = " << dx << std::endl
@@ -106,6 +114,17 @@ int main()
   // Hint
   // Is type deduction really needed here?
 #endif // STEP == 2
+
+#if STEP == 3
+  // Doesn't compile
+
+  decltype(x)    dx2;       // int
+  decltype(cx)   dcx2;      // const int
+  decltype(rcx)  drcx2;     // const int &
+  decltype(pcx)  dpcx2;     // const int *
+  decltype(cpcx) dcpcx2;    // const int * const
+
+#endif // STEP == 3
 
   return 0;
 }
