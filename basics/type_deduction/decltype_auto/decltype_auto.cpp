@@ -193,6 +193,7 @@ void test_neg_by_ref()
 
   // neg(x) is a prvalue
   CHECK_TYPE(decltype(neg(x)), int);
+  CHECK_TYPE(decltype(neg(x)), int&);
   NL;
 }
 
